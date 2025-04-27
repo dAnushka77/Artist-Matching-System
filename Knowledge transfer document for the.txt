@@ -1,0 +1,367 @@
+Knowledge transfer document for the ER diagram -
+
+The data schema or erd diagram showcases different main entities present in the system and
+supporting entities and relations between them. There are also lookup tables which provide
+some descriptive information about the entities.
+Main Entities:
+Artist: Artist table is a table which stores artist and all corresponding details of the artist and
+also holds many relations mostly being with the support entities which provide additional details
+about the artist and also relations with other main entities.
+Venue: Venue schema totally deals with venue details and also includes brief details in Lu
+tables associated with them. They also have relations with other major tables for holding
+important information about the events.
+Bluecard: Bluecard is a major entity which holds information of all events taking place with
+many foreign connections with all other major entities and it acts as main entity for the project as
+it contains the information of events.
+Presenter:It holds information about presenters of the event and other associated details of
+presenters.
+NationalOffer:This set of tables are related to the national offers which provide major
+information about finance and other money related details to the bluecard table i.e the events.
+Contract:These tables contain all major information about the contracts issued in the system.
+Financial Tables : This is a complex set of tables not having one main table. They have many
+tables with different financial details associated with different entities and events. The
+wholesomely provide a ledger kind of information which has all the financial information of the
+system.
+Agent : There is a small yet so important entity in the ERD which has information about agent
+programs which in turn are used for agent details.
+AppUser : This set of tables are used to give information about app users and very much
+important in understanding feedback.
+Lead : This table has information about lead agents .
+Apart from these main entities and direct supporting entities there are also some entities used
+by main entities such as contact information, communication, weblinks etc. Lu tables which are
+lookup tables are very important to the system as they provide feedback related information
+which helps in the analysis part.
+Overview of Key Entities:
+Lead to Presenter: Leads are potential clients. When they decide to move forward, they convert
+into Presenters.
+Presenter, Artist, Venue, and Event: These are the main entities involved in organizing an event.
+Presenters book Artists and Venues through the Event entity, and these arrangements are
+formalized in Contracts.
+Blue Card: This entity ensures that all parties (Artists, Venues) comply with necessary
+regulations or certifications.
+Contract to Accounting: Contracts detail the financial agreements, and Accounting tracks the
+money flow, ensuring all transactions are recorded and linked to the correct contracts.
+Connection types between tables:
+A >|----------||- B:
+A >o---------||- B:
+A +o---------||- B:
+A >o--------o+ B:
+A >|----------||- B:
+Explanation: This represents a one-to-one relationship between A and B.
+>|: The ">" denotes that A can optionally participate in the relationship (i.e., not all instances of A
+are involved in the relationship). The "|" represents that exactly one instance of A participates if
+it does participate.
+||: On the side of B, the "||" means that B must participate exactly once (mandatory
+participation).
+Meaning: This means that A can optionally be linked to exactly one instance of B, and B must
+be linked to exactly one instance of A.
+Type: One-to-One relationship (optional for A but mandatory for B).
+A >o---------||- B:
+Explanation: This represents a many-to-one (N:1) relationship.
+>o: The "o" denotes optional participation from A, meaning an instance of A may or may not be
+involved in the relationship. The ">" represents multiple instances (the "many" side).
+||: On the side of B, the "||" means that B must participate exactly once in the relationship.
+Meaning: This means that multiple instances of A can optionally be linked to exactly one
+instance of B, and B must be linked to one or more instances of A.
+Type: Many-to-One (optional for A, mandatory for B).
+A +o---------||- B:
+Explanation: This represents a one-to-one relationship, similar to the first example, but with
+optional participation on both sides.
++o: The "+" means the relationship is unique for A (one instance only), and "o" indicates optional
+participation for A (it may or may not participate in the relationship).
+||: On the side of B, the "||" means that B must participate exactly once.
+Meaning: This means that each instance of A can optionally be linked to exactly one instance of
+B, but every instance of B must be linked to one A.
+Type: One-to-One (optional for A, mandatory for B).
+A >o--------o+ B:
+Explanation: This represents a many-to-many (M) relationship.
+>o: The "o" denotes optional participation for A, and the ">" represents multiple instances (the
+"many" side).
+o+: On the side of B, the "+" means the relationship is unique for B (each instance of B has a
+unique link), and "o" indicates optional participation from B as well.
+Meaning: This means that multiple instances of A can optionally be linked to multiple instances
+of B, and both sides can have optional participation.
+Type: Many-to-Many (optional participation for both A and B).
+Summary of Connections:
+A >|----------||- B: One-to-One (optional for A, mandatory for B).
+A >o---------||- B: Many-to-One (optional for A, mandatory for B).
+A +o---------||- B: One-to-One (optional for A, mandatory for B).
+A >o--------o+ B: Many-to-Many (optional for both A and B).
+To focus on data flow explanations and other relevant information, we can break it down into
+several key areas:
+1. Data Flow Explanation
+Understanding how data moves through the system is crucial for grasping the entire architecture
+of your project. Here’s how you can document the data flow:
+a. Data Entry Points
+● Blue Card Creation:
+○ Data Inputs: The process begins when a Blue Card is created. Data such as the
+presenter’'s details, event information, and venue details are entered.
+○ Primary Entities Involved: BlueCard, Artist, Presenter, Venue.
+● Artist Enrollment:
+○ Data Inputs: When an artist enrolls in a program, data regarding the artist,
+program, and enrollment specifics are captured.
+○ Primary Entities Involved: ArtistProgramEnroll, ArtistProgram,
+Artist.
+● Contract Creation:
+○ Data Inputs: When a contract is created, information about the agreement
+between the artist, presenter, and venue is captured.
+○ Primary Entities Involved: Contract, Artist, Presenter, Venue.
+b. Data Processing
+● Promo and Marketing:
+○ Data Flow: Information from the BlueCardPromo, BlueCardPromoArtist,
+and related entities is processed to generate promotional materials.
+○ Key Processes: This includes generating promo content, linking artists to
+specific promos, and creating web links or files associated with the promo.
+● Financial Transactions:
+○ Data Flow: Financial data flows through various entities, including
+ContractPayment, AgentPayment, PayrollBatch, and related tables.
+○ Key Processes: Payment processing, commission calculations, and payroll
+management are handled in this phase.
+● Contract Management:
+○ Data Flow: Data related to contracts moves through entities such as Contract,
+ContractArtist, ContractTransaction, and ContractEventDate.
+○ Key Processes: Contract creation, amendments, and event management are
+processed here.
+c. Data Storage and Retrieval
+● Centralized Storage:
+○ Entities Involved: Most of the data is stored across entities like BlueCard,
+Contract, Artist, Presenter, and Venue.
+○ Data Retrieval: Data can be retrieved for reporting, analysis, or further
+processing through queries against these entities.
+● Historical Data:
+○ Entities Involved: Historical data might be stored in entities like
+ArchivedContracts, OldEventDetails, or PastArtistPrograms.
+○ Data Retrieval: Useful for generating reports on past performances, events, or
+financial summaries.
+2. Relevant Information for our Project
+In addition to data flow, it’s important to understand other aspects that might be relevant for our
+project:
+a. System Interactions
+● Internal Systems:
+○ The ER diagram likely represents an internal system where different modules
+interact with each other. For example, the Artist Module interacts with the Venue
+and Contract Modules.
+● External Systems:
+○ There could be interactions with external systems, especially for handling
+payments, marketing campaigns, or external event management tools.
+b. Data Integrity and Validation
+● Foreign Key Constraints:
+○ The relationships between entities ensure data integrity. For example, each
+BlueCard must be associated with valid Artist, Presenter, and Venue
+entries.
+● Data Validation:
+○ Before data is processed (e.g., contract creation, artist enrollment), validation
+checks should ensure that all required fields are complete and meet predefined
+criteria.
+c. Security and Permissions
+● Access Control:
+○ Define who has access to which parts of the system. For instance, only certain
+roles might be allowed to create or modify contracts, while others can only view
+them.
+● Sensitive Data:
+○ Data such as payment information, artist personal details, and contract terms
+should be securely stored and transmitted.
+d. Reporting and Analytics
+● Performance Reports:
+○ Generate reports on artist performances, event success rates, financial
+summaries, and other key metrics.
+● Dashboards:
+○ Implement dashboards for real-time monitoring of ongoing events, financials, and
+contract statuses.
+e. Auditing and Logging
+● Change Tracking:
+○ Implement logs to track changes made to key entities like Contract,
+BlueCard, Artist, etc.
+● Audit Trails:
+○ Maintain an audit trail to trace back any modifications or transactions, which is
+crucial for both security and compliance.
+Identifying fact and dimension tables is a key step in designing a data warehouse, especially for
+reporting and analytics. Here’s how we can identify them in your ER diagram:
+1. Fact Tables
+Fact tables are the core of a star or snowflake schema in a data warehouse. They typically
+contain quantitative data (measures) that are used for analysis and are often at the intersection
+of several dimension tables. In your ER diagram, the following entities might be considered as
+fact tables:
+● BlueCard:
+○ This table could serve as a fact table as it likely records the core event data, such
+as event type, venue, budget, etc. Each record in the BlueCard could be an
+"event" that occurred, with measures such as budget and number of attendees.
+● Contract:
+○ Contracts can also be treated as fact tables, especially in cases where the
+contract details (such as amounts, dates, and involved parties) are central to the
+analysis. The measures here could include the total contract amount,
+commission percentages, and payments made.
+● NationalOffer:
+○ This table could be considered a fact table if you are analyzing offers on a
+national scale. Measures might include offer amount, number of offers per region,
+and the success rate of those offers.
+● ArtistProgramEnroll:
+○ This table could serve as a fact table if you’re analyzing artist enrollments in
+programs. Measures could include the number of enrollments, the total revenue
+from enrollments, etc.
+2. Dimension Tables
+Dimension tables contain descriptive attributes (or fields) related to the fact data. They are used
+to filter, group, and label facts in queries. In your ER diagram, the following entities might serve
+as dimension tables:
+● Artist:
+○ This table provides detailed information about artists, such as their names,
+addresses, and agency information. It’s a classic dimension table, allowing you to
+slice your data by different artist attributes.
+● Venue:
+○ This table contains information about venues, including names, locations, and
+capacities. It helps in analyzing events or contracts based on where they took
+place.
+● Presenter:
+○ Similar to Artist, the Presenter table holds descriptive information about
+presenters, such as their organization name, address, and contact details.
+● EventType (Lu_EventType):
+○ This lookup table provides details about the types of events. It can be used to
+categorize and analyze events based on their types.
+● GenreType (Lu_GenreType):
+○ This table helps in categorizing and analyzing artists or events based on genres.
+● ActType (Lu_ActType):
+○ This lookup table helps categorize and analyze performances based on their type
+(e.g., musical act, stand-up comedy, etc.).
+● ContractStatus (Lu_ContractStatus):
+○ This table could be used to analyze contracts based on their status (e.g., active,
+closed, canceled).
+3. Bridge Tables
+Bridge tables can also exist in more complex schemas where many-to-many relationships need
+to be resolved. Some potential bridge tables from your diagram might include:
+● ArtistGenreType:
+○ This resolves the many-to-many relationship between Artist and GenreType.
+● ArtistActType:
+○ This resolves the many-to-many relationship between Artist and ActType.
+● BlueCardArtist:
+○ This table likely links BlueCard with Artist and could serve as a bridge
+between these two tables.
+Summary
+● Fact Tables: BlueCard, Contract, NationalOffer, ArtistProgramEnroll
+● Dimension Tables: Artist, Venue, Presenter, Lu_EventType, Lu_GenreType,
+Lu_ActType, Lu_ContractStatus
+● Bridge Tables: ArtistGenreType, ArtistActType, BlueCardArtist
+These identifications will help us structure our data warehouse efficiently, ensuring that we can
+run queries and generate reports that are both meaningful and performant.
+1. Agent-Related Analysis
+● BlueCard Table: Analyze events managed by agents, including revenue, expenses, and
+overall event performance.
+● Contract Table: Evaluate contracts managed by agents, linking them to revenue and
+financial performance.
+● AgentPayment Table: Assess the payments made to agents and correlate this with
+their performance.
+● NationalOffer Table: Review national offers made by agents, assessing their success
+rate and financial outcomes.
+● ArtistFeedback Table: Analyze feedback related to artists managed by agents,
+understanding qualitative aspects of performance.
+● Presenter Table: Track the relationship between agents and their clients or presenters,
+including retention and satisfaction.
+Conclusion
+Although there isn't a dedicated Agent table, agent information is dispersed across various
+tables like BlueCard, Contract, AgentPayment, NationalOffer, and others. We can still
+perform comprehensive agent-related analysis by joining these tables based on AgentId and
+related keys.
+This approach will allow us to gather a holistic view of agent performance, including revenue
+generation, payment tracking, event management, and customer relationships.
+2. Calculation Flows:
+Here’s how these elements might work together in a typical financial transaction:
+1. Gross Amount Calculation:
+○ Start with the gross amount, which might be defined in the Contract or
+BlueCard as the total value of the event or booking.
+2. Agent Fee Deduction:
+○ The agent fee is calculated based on the gross amount. This is either a
+percentage or a fixed fee.
+○ The fee is recorded in the AgentPayment table.
+3. Artist Fee Deduction:
+○ The artist fee is similarly deducted from the gross amount. This could be
+predefined in ArtistPrice and recorded in the ArtistPayment table.
+4. EventManagementCompany Commission Calculation:
+○ After deducting the agent and artist fees, the remaining amount might be
+considered for EventManagementCompany’s commission.
+○ The commission percentage or amount is applied, and this is recorded in the
+CommissionProgram or AgentCommission tables.
+5. Final Profit Calculation:
+○ The final profit for EventManagementCompany is the gross amount minus the
+agent fees, artist fees, and any other deductions.
+Conclusion
+By linking these tables (BlueCard, Contract, AgentPayment, ArtistPayment,
+CommissionProgram, AgentCommission), we can track the flow of money from the gross
+amount down to the final commissions and payments made. This structure allows us to perform
+detailed financial analyses, such as calculating profitability, evaluating agent performance, and
+ensuring that all fees and commissions are accurately accounted for.
+
+
+
+
+------
+
+
+
+Assignment: Database Knowledge Transfer and ER Diagram Understanding
+Objective:
+This assignment assesses your understanding of the event management database and
+the relationships between its key tables. By completing this task, you will demonstrate
+your ability to interpret the ER diagram, understand the database structure, and apply
+your knowledge effectively.
+Instructions:
+• Read the Knowledge Transfer Document: Carefully review the knowledge transfer
+document, paying close attention to the key tables, their relationships, and how
+data flows between them.
+• Analyze the ER Diagram: Study the ER diagram shared here and ensure you
+understand the connections between different entities (Leads, BlueCard,
+Payments, Venues, etc.).
+• Complete the Tasks Below: Submit your answers in a document for review.
+Assignment Questions:
+Part 1: ER Diagram Comprehension
+1. Identify Key Relationships:
+• Describe the relationship between the Leads table and the BlueCard table. What
+type of relationship exists between these tables (one-to-one, one-to-many,
+many-to-many)?
+• How are the Payments table and the BlueCard table linked? Explain how
+payments are tracked for specific BlueCard.
+• Explain the role of the Venues table and how it interacts with other tables in the
+database.
+2. Entity Identification:
+• List three entities in the database that you believe are crucial for understanding
+the overall structure and flow of the event management system. Briefly describe
+their importance.
+• Based on the ER diagram, which table would you query first if you wanted to
+gather information about an event and its associated Lead?
+3. Table Details:
+• What are the primary columns in the Payments table, and why are they important
+for managing the financial side of event planning?
+• In the context of marketing, how would the Marketing Campaign(NationalOffer)
+table help the company assess the effectiveness of its marketing efforts? Which
+other tables would it likely interact with?
+4. Business Use Cases:
+• Provide two business use cases where understanding the relationship between
+Leads and BlueCard is crucial for decision-making.
+• Describe a scenario in which the Venues and BlueCard tables would be used
+together to make strategic decisions regarding event scheduling.
+Part 2: Short-Answer Reflection
+1. Data Flow Understanding: In 100-150 words, explain how data flows from the
+moment a Lead books an event to the final payment for that event. Use your
+understanding of the relationships between the tables to describe the process.
+2. Key Takeaways: After reviewing the knowledge transfer document and ER
+diagram, what are three key takeaways you have about the structure and importance
+of the database for managing event-related operations?
+3. Real-World Application:
+• How do you think the forecasting capabilities of this database (using time series
+forecasting) would impact the business’s ability to predict future revenue and
+profitability?
+• What role does the Leads table play in helping the company maintain
+relationships with recurring customers? How might it affect future business
+strategies?
+4. Reflections on Complexity:
+• Reflect on how the size of the 7GB database impacts querying and data retrieval.
+• How might you optimize queries to handle large datasets efficiently?
+• Considering that this project involves SQL and PowerBI, how would you leverage
+the database structure to create meaningful visualizations for stakeholders?
+Submission:
+Deadline: Submit your answers by Mon 9am est next week.
+Format: Please submit your document in PDF or Word format.
+Grading Criteria:
+• Comprehension (50%): Ability to accurately describe table relationships and
+database structure.
+• Reflection (40%): Depth of understanding demonstrated in the short-answer
+reflection.
+• Clarity (10%): Overall clarity and organization of the submission.
